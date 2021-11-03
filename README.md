@@ -163,7 +163,7 @@ In this guide, I'll create a two different ways to partition a drive. One for a 
   - Also hit enter for the GUID to select default(`8300`).
   - Then set name of the partition to `root`.
 
-- Create the `root` partition
+- Create the `home` partition
 
   - Hit New again.
   - Hit enter to select the default option for the first sector.
