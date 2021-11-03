@@ -20,10 +20,10 @@ The default console keymap is US. Available layouts can be listed with:
 ls /usr/share/kbd/keymaps/**/*.map.gz
 ```
 
-To modify the layout, append a corresponding file name to loadkeys, omitting path and file extension. For example, to set a US keyboard layout:
+To modify the layout, append a corresponding file name to loadkeys, omitting path and file extension. For example, to set a latin american keyboard layout:
 
 ```bash
-loadkeys us
+loadkeys la-latin1
 ```
 
 ## Verify the boot mode
@@ -469,8 +469,9 @@ The `base` package does not include all tools from the live installation, so ins
 - a text editor(s),
 
   - `nano`
+  - `micro`
   - `vim`
-  - `vi`
+  - `neovim`
 
 - packages for accessing documentation in man and info pages,
 
@@ -505,10 +506,10 @@ arch-chroot /mnt /bin/bash
 
 ## Time zone
 
-A selection of timezones can be found under `/usr/share/zoneinfo/`. Since I am in the Philippines, I will be using `/usr/share/zoneinfo/Asia/Manila`. Select the appropriate timezone for your country:
+A selection of timezones can be found under `/usr/share/zoneinfo/`. Since I am in Colombia, I will be using `/usr/share/zoneinfo/America/Bogota`. Select the appropriate timezone for your country:
 
 ```bash
-ln -sf /usr/share/zoneinfo/Asia/Manila /etc/localtime
+ln -sf /usr/share/zoneinfo/America/Bogota /etc/localtime
 ```
 
 Run `hwclock` to generate `/etc/adjtime`:
@@ -538,10 +539,10 @@ locale > /etc/locale.conf
 If you set the keyboard layout earlier, make the changes persistent in `vconsole.conf`:
 
 ```bash
-echo "KEYMAP=us" > /etc/vconsole.conf
+echo "KEYMAP=la-latin1" > /etc/vconsole.conf
 ```
 
-Not using `us` layout? Replace it, stoopid.
+Not using `la-latin1` layout? Replace it, stoopid.
 
 ## Network configuration
 
