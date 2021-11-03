@@ -1,6 +1,6 @@
 ## POST INSTALLATION
 
-In post installation we will be using a lot of `sudo`. I'm not responsible if you broke your newly installed system. Remember that this guide is *for* ***future me***.
+In post installation we will be using a lot of `sudo`. I'm not responsible if you broke your newly installed system. Remember that this guide is _for_ **_future me_**.
 
 ### Connect to the internet
 
@@ -28,12 +28,11 @@ If you're planning to use a window manager like `awesome`, `bspwm` or `i3`, you 
 
 After installing the graphical server, we need to install the video drivers. I'm only using an integrated intel graphics card. **Sobs.** So an intel driver is what I need.
 
-
 ```
 # pacman -S xf86-video-intel vulkan-intel vulkan-icd-loader libva-intel-driver
 ```
 
-Add your (kernel) graphics driver to your initramfs. For example, if using `intel` add `i915`: 
+Add your (kernel) graphics driver to your initramfs. For example, if using `intel` add `i915`:
 
 ```
 # sudoedit /etc/mkinitcpio.conf
@@ -66,7 +65,6 @@ android-udev mtpfs xdg-user-dirs
 # xdg-user-dirs-update
 ```
 
-
 #### Git
 
 If you didn't include `git` on `pacstrap` earlier, it's time to install it now. This tool will come in handy later:
@@ -96,136 +94,135 @@ $ yay -S wd719x-firmware aic94xx-firmware --removemake --noconfirm
 # mkinitcpio -p linux
 ```
 
-
 #### Desktop Environment and Window Manager
 
-Install your preferred desktop environment or window manager. 
+Install your preferred desktop environment or window manager.
 
 I'm an `awesome` and `KDE Plasma` guy, but right now I am using `Plasma`. So in this guide, I'll include a guide to set-up both `Plasma` and `Awesome`.
 
-+ KDE Plasma
+- KDE Plasma
 
-	- Install the `plasma-meta` meta-package or the `plasma` group. For differences between `plasma-meta` and `plasma` reference Package group. Alternatively, for a more minimal Plasma installation, install the `plasma-desktop` package. Although I always install `plasma-desktop`, `plasma-meta` and some other programs such as `libappindicator-gtk3`, `libappindicator-gtk2`, `packagekit-qt5`, and etc.
+  - Install the `plasma-meta` meta-package or the `plasma` group. For differences between `plasma-meta` and `plasma` reference Package group. Alternatively, for a more minimal Plasma installation, install the `plasma-desktop` package. Although I always install `plasma-desktop`, `plasma-meta` and some other programs such as `libappindicator-gtk3`, `libappindicator-gtk2`, `packagekit-qt5`, and etc.
 
-		```
-		# pacman -S plasma-desktop plasma-meta
-		```
+    ```
+    # pacman -S plasma-desktop plasma-meta
+    ```
 
-	- KDE Plasma provides a global menu, to have a better integration with `GTK` programs, install `appmenu-gtk-module`:
+  - KDE Plasma provides a global menu, to have a better integration with `GTK` programs, install `appmenu-gtk-module`:
 
-		```
-		# pacman -S appmenu-gtk-module
-		```
+    ```
+    # pacman -S appmenu-gtk-module
+    ```
 
-	- If some programs like `Discord` has a blurry icon in the system tray, install the libappindicators:
+  - If some programs like `Discord` has a blurry icon in the system tray, install the libappindicators:
 
-		```
-		# pacman -S libappindicator-gtk3 libappindicator-gtk2
-		```
+    ```
+    # pacman -S libappindicator-gtk3 libappindicator-gtk2
+    ```
 
-	- `Discover` is the Plasma's app store, it will be automatically installed by installing the `plasma-meta` package. If it doesn't show any applications, install `packagekit-qt5`:
+  - `Discover` is the Plasma's app store, it will be automatically installed by installing the `plasma-meta` package. If it doesn't show any applications, install `packagekit-qt5`:
 
-		```
-		# pacman -S packagekit-qt5
-		```
+    ```
+    # pacman -S packagekit-qt5
+    ```
 
-	- Xorg is dying and nobody wants to maintain it anymore, while "Wayland is the future". I agree with this, although wayland needs to mature a little bit more to replace X completely. So yeah, I also want a Wayland session to test things out:
+  - Xorg is dying and nobody wants to maintain it anymore, while "Wayland is the future". I agree with this, although wayland needs to mature a little bit more to replace X completely. So yeah, I also want a Wayland session to test things out:
 
-		```
-		# pacman -S qt5-wayland plasma-wayland-session
-		```
+    ```
+    # pacman -S qt5-wayland plasma-wayland-session
+    ```
 
-	- Some of the plasmoids uses `qdbus`, so also intall `qt5-tools` that will provide it:
+  - Some of the plasmoids uses `qdbus`, so also intall `qt5-tools` that will provide it:
 
-		```
-		# pacman -S qt5-tools
-		```
+    ```
+    # pacman -S qt5-tools
+    ```
 
-	- I need a dock and I will be using `latte-dock` from the AUR:
+  - I need a dock and I will be using `latte-dock` from the AUR:
 
-		```
-		$ yay -S latte-dock-git
-		```
+    ```
+    $ yay -S latte-dock-git
+    ```
 
-+ Awesome Window Manager
+- Awesome Window Manager
 
-	- I always use the latest version of `awesomewm` because the devs are doing an amazing job by maintaining this treasure of a program and I also want to get the latest fixes and features ASAP (one of the reason I use arch btw). So install it from the AUR:
+  - I always use the latest version of `awesomewm` because the devs are doing an amazing job by maintaining this treasure of a program and I also want to get the latest fixes and features ASAP (one of the reason I use arch btw). So install it from the AUR:
 
-		```
-		$ yay -S awesome-git --noconfirm --removemake
-		```
+    ```
+    $ yay -S awesome-git --noconfirm --removemake
+    ```
 
-	- Of course, just a window manager is not enough to get the experience I want. So I need to install a compositor and some utilities to achieve it.
+  - Of course, just a window manager is not enough to get the experience I want. So I need to install a compositor and some utilities to achieve it.
 
-		- I will be using `light` as the backlight control tool:
+    - I will be using `light` as the backlight control tool:
 
-			```
-			$ yay -S light-git
-			```
+      ```
+      $ yay -S light-git
+      ```
 
-		- Picom as the compositor:
+    - Picom as the compositor:
 
-			```
-			$ yay -S picom-git --noconfirm --removemake
-			```
+      ```
+      $ yay -S picom-git --noconfirm --removemake
+      ```
 
-		- Rofi as the application launcher:
+    - Rofi as the application launcher:
 
-			```
-			# pacman -S rofi
-			```
+      ```
+      # pacman -S rofi
+      ```
 
-		- Authentication Managers
+    - Authentication Managers
 
-			Polkit is used for controlling system-wide privileges. It provides an organized way for non-privileged processes to communicate with privileged ones. In contrast to systems such as sudo, it does not grant root permission to an entire process, but rather allows a finer level of control of centralized system policy.
+      Polkit is used for controlling system-wide privileges. It provides an organized way for non-privileged processes to communicate with privileged ones. In contrast to systems such as sudo, it does not grant root permission to an entire process, but rather allows a finer level of control of centralized system policy.
 
-			+ Install `polkit-kde-agent`/`lxqt-policykit`/`polkit-gnome`, and `gnome-keyring`:
+      - Install `polkit-kde-agent`/`lxqt-policykit`/`polkit-gnome`, and `gnome-keyring`:
 
-				I'm using Qt apps with awesome, so I'll install lxqt-policykit for UI consistency. Note that you only need one authentication manager and gnome-keyring.
+        I'm using Qt apps with awesome, so I'll install lxqt-policykit for UI consistency. Note that you only need one authentication manager and gnome-keyring.
 
-				```
-				# pacman -S polkit lxqt-policykit gnome-keyring
-				```
+        ```
+        # pacman -S polkit lxqt-policykit gnome-keyring
+        ```
 
-			+ Run it:
+      - Run it:
 
-				For lxqt-policykit, run:
+        For lxqt-policykit, run:
 
-				```
-				$ /usr/bin/lxqt-policykit-agent
-				```
+        ```
+        $ /usr/bin/lxqt-policykit-agent
+        ```
 
-				For polkit-kde-agent, run:
+        For polkit-kde-agent, run:
 
-				```
-				$ /usr/lib/polkit-kde-authentication-agent-1
-				```
+        ```
+        $ /usr/lib/polkit-kde-authentication-agent-1
+        ```
 
-				For polkit-gnome:
+        For polkit-gnome:
 
-				```
-				$ /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-				```
+        ```
+        $ /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+        ```
 
 #### Terminal Emulator
 
 After installing an environment, we need a terminal emulator. Every linux user's first partner. Note that we're still on the `TTY`.
 
-+ KDE Plasma
+- KDE Plasma
 
-	`Konsole` is the best terminal emulator for KDE Plasma due to its integration to the environment. While `yakuake` will be our drop-down terminal.
+  `Konsole` is the best terminal emulator for KDE Plasma due to its integration to the environment. While `yakuake` will be our drop-down terminal.
 
-	```
-	# pacman -S konsole yakuake
-	```
+  ```
+  # pacman -S konsole yakuake
+  ```
 
-+ Awesome Window Manager
+- Awesome Window Manager
 
-	For me, `kitty` is the best terminal emulator for my awesome wm setups as it's easy to configure and *fast*. I will also install `xterm` as a backup emulator.
-	
-	```
-	# pacman -S kitty xterm
-	```
+  For me, `kitty` is the best terminal emulator for my awesome wm setups as it's easy to configure and _fast_. I will also install `xterm` as a backup emulator.
+
+  ```
+  # pacman -S kitty xterm
+  ```
 
 #### GTK
 
@@ -253,23 +250,22 @@ KDE's `dolphin` is the best file manager in the Linux world, imho. So I always u
 
 To generate thumbnails, I'll also install these:
 
-+ kdegraphics-thumbnailers: Image files and PDFs
-+ kimageformats: Gimp `.xcf` files
-+ qt5-imageformats : `.webp`, `.tiff`, `.tga`, `.jp2` files
-+ kdesdk-thumbnailers: Plugins for the thumbnailing system
-+ ffmpegthumbs: Video files (based on ffmpeg)
-+ raw-thumbnailer: `.raw` files
-+ taglib : Audio files
+- kdegraphics-thumbnailers: Image files and PDFs
+- kimageformats: Gimp `.xcf` files
+- qt5-imageformats : `.webp`, `.tiff`, `.tga`, `.jp2` files
+- kdesdk-thumbnailers: Plugins for the thumbnailing system
+- ffmpegthumbs: Video files (based on ffmpeg)
+- raw-thumbnailer: `.raw` files
+- taglib : Audio files
 
 ```
 # pacman -S kdegraphics-thumbnailers kimageformats qt5-imageformats kdesdk-thumbnailers \
 ffmpegthumbs raw-thumbnailer taglib
 ```
 
-Enable preview showing of required file type in *Settings > Configure Dolphin... > General > Previews*.
+Enable preview showing of required file type in _Settings > Configure Dolphin... > General > Previews_.
 
 There's a lot more thumbnail generators that can be found from the AUR (like a generator to create a thumbnail for `APK` files), but I don't really use them.
-
 
 #### GUI-based Text Editors
 
@@ -326,7 +322,7 @@ $ gsettings set org.blueman.plugins.powermanager auto-power-on false
 
 #### Microcode
 
-Processor manufacturers release stability and security updates to the processor microcode. These updates provide bug fixes that can be critical to the stability of your system. Without them, you may experience spurious crashes or unexpected system halts that can be difficult to track down. 
+Processor manufacturers release stability and security updates to the processor microcode. These updates provide bug fixes that can be critical to the stability of your system. Without them, you may experience spurious crashes or unexpected system halts that can be difficult to track down.
 
 Install microcode.
 
@@ -342,9 +338,9 @@ For Intel processors:
 # pacman -S intel-ucode
 ```
 
-If your Arch installation is on a removable drive that needs to have microcode for both manufacturer processors, install both packages. 
+If your Arch installation is on a removable drive that needs to have microcode for both manufacturer processors, install both packages.
 
-Load  microcode. For `systemd-boot`, use the `initrd` option to load the microcode, **before** the initial ramdisk, as follows:
+Load microcode. For `systemd-boot`, use the `initrd` option to load the microcode, **before** the initial ramdisk, as follows:
 
 ```
 # sudoedit /boot/loader/entries/entry.conf
@@ -360,143 +356,142 @@ initrd  /initramfs-linux.img
 
 Change `CPU_MANUFACTURER` with either `amd` or `intel` depending on your processor.
 
-
 #### Plymouth
 
 Plymouth provides a flicker-free graphical boot process. In short, a splash screen.
 
 1. Install plymouth.
 
-	```
-	$ yay -S plymouth
-	```
+   ```
+   $ yay -S plymouth
+   ```
 
-2. Add `plymouth` to the HOOKS array in mkinitcpio.conf. It must be added **after** `base` and `udev`/`systemd` for it to work: 
+2. Add `plymouth` to the HOOKS array in mkinitcpio.conf. It must be added **after** `base` and `udev`/`systemd` for it to work:
 
-	```
-	# sudoedit /etc/mkinitcpio.conf
-	```
+   ```
+   # sudoedit /etc/mkinitcpio.conf
+   ```
 
-	- Unencrypted partition
+   - Unencrypted partition
 
-		Put `plymouth` after base and udev:
+     Put `plymouth` after base and udev:
 
-		```
-		HOOKS=(base udev plymouth ...)
-		```
+     ```
+     HOOKS=(base udev plymouth ...)
+     ```
 
-	- Encrypted partition **and** `systemd`-based initramfs.
+   - Encrypted partition **and** `systemd`-based initramfs.
 
-		Again, you need a `systemd`-based initramfs for the `plymouth` HOOK to work.
+     Again, you need a `systemd`-based initramfs for the `plymouth` HOOK to work.
 
-		Put `sd-plymouth` after the `base` and `systemd` hooks:
+     Put `sd-plymouth` after the `base` and `systemd` hooks:
 
-		```
-		HOOKS=(base systemd sd-plymouth ...)
-		```
+     ```
+     HOOKS=(base systemd sd-plymouth ...)
+     ```
 
 3. Set the theme.
-	
-	List all the installed plymouth theme:
 
-	```
-	# plymouth-set-default-theme -l
-	```
+   List all the installed plymouth theme:
 
-	I have my own theme btw, and you can found it on the AUR. It is called `arch10`. So install it:
+   ```
+   # plymouth-set-default-theme -l
+   ```
 
-	```
-	$ yay -S plymouth-theme-arch10
-	```
+   I have my own theme btw, and you can found it on the AUR. It is called `arch10`. So install it:
 
-	Choose a theme by running the command below, then it will rebuild the initramfs image:
+   ```
+   $ yay -S plymouth-theme-arch10
+   ```
 
-	```
-	# plymouth-set-default-theme -R arch10
-	```
+   Choose a theme by running the command below, then it will rebuild the initramfs image:
 
-	Replace `arch10` with your choice.
+   ```
+   # plymouth-set-default-theme -R arch10
+   ```
+
+   Replace `arch10` with your choice.
 
 4. You now need to append `splash` in the kernel parameters in your boot entry options.
-	
-	```
-	# sudoedit /boot/loader/enable/arch.conf
-	```
 
-	Example:
+   ```
+   # sudoedit /boot/loader/enable/arch.conf
+   ```
 
-	```
-	title Arch Linux
-	linux /vmlinuz-linux
-	initrd /intel-ucode.img
-	initrd /initramfs-linux.img
-	options rd.luks.name=/DEV/SDA2/UUID/HERE=volume root=/dev/mapper/volume-root rw
-	options quiet splash fbcon=nodefer
-	```
+   Example:
+
+   ```
+   title Arch Linux
+   linux /vmlinuz-linux
+   initrd /intel-ucode.img
+   initrd /initramfs-linux.img
+   options rd.luks.name=/DEV/SDA2/UUID/HERE=volume root=/dev/mapper/volume-root rw
+   options quiet splash fbcon=nodefer
+   ```
 
 #### Display Manager
 
 A display manager, or login manager, is typically a graphical user interface that is displayed at the end of the boot process in place of the default shell.
 
-+ KDE Plasma
+- KDE Plasma
 
-	The `plasma-meta` package will include and install `sddm`. So there's no need to install one. Enable it by:
+  The `plasma-meta` package will include and install `sddm`. So there's no need to install one. Enable it by:
 
-	If you installed and using `plymouth`, enable this to have a smooth transition:
+  If you installed and using `plymouth`, enable this to have a smooth transition:
 
-	```
-	# systemctl enable sddm-plymouth
-	```
+  ```
+  # systemctl enable sddm-plymouth
+  ```
 
-	If not:
+  If not:
 
-	```
-	# systemctl enable sddm
-	```	
+  ```
+  # systemctl enable sddm
+  ```
 
-+ Awesome Window Manager
+- Awesome Window Manager
 
-	I'm using `lightdm` with `lightdm-webkit2-greeter`, so this guide will cover that. 
+  I'm using `lightdm` with `lightdm-webkit2-greeter`, so this guide will cover that.
 
-	- First, install it:
+  - First, install it:
 
-		```
-		# pacman -S lightdm lightdm-webkit2-greeter
-		```
+    ```
+    # pacman -S lightdm lightdm-webkit2-greeter
+    ```
 
-	- To enable graphical login, enable the appropriate systemd service. For example, for Lightdn, enable `lightdm.service`. Just because we're using plymouth, we will enable `lightdm-plymouth.service` to have a smooth transition from plymouth to lightdm.
+  - To enable graphical login, enable the appropriate systemd service. For example, for Lightdn, enable `lightdm.service`. Just because we're using plymouth, we will enable `lightdm-plymouth.service` to have a smooth transition from plymouth to lightdm.
 
-		```
-		# systemctl enable lightdm-plymouth
-		```
+    ```
+    # systemctl enable lightdm-plymouth
+    ```
 
-	- Install a theme. I create my own lightdm-webkit2 theme and it's called [glorious](https://github.com/manilarome/lightdm-webkit2-theme-glorious).
+  - Install a theme. I create my own lightdm-webkit2 theme and it's called [glorious](https://github.com/manilarome/lightdm-webkit2-theme-glorious).
 
-		```
-		$ yay -S lightdm-webkit2-theme-glorious
-		```
+    ```
+    $ yay -S lightdm-webkit2-theme-glorious
+    ```
 
-	- Configure the lightdm to use lightdm-webkit2-greeter by:
+  - Configure the lightdm to use lightdm-webkit2-greeter by:
 
-		+ Set lightdm greeter session to webkit2.
+    - Set lightdm greeter session to webkit2.
 
-			```
-			# sudoedit /etc/lightdm/lightdm.conf
-			```
+      ```
+      # sudoedit /etc/lightdm/lightdm.conf
+      ```
 
-			Find `greeter-session` under the `[Seat:*]` section, uncomment it, then set its value to `lightdm-webkit2-greeter`.
+      Find `greeter-session` under the `[Seat:*]` section, uncomment it, then set its value to `lightdm-webkit2-greeter`.
 
-		+ Set it as the lightdm-webkit2 theme then enable `debug_mode` by setting it to `true`. Why do we need to enable `debug_mode`? Sometimes you will be greeted by an error. And this error is due to a race condition where the theme is trying to access the `lightdm` object even though it doesn't exist *yet*. Debug mode will allow you to `right-click` and `reload` the greeter just like a webpage.
+    - Set it as the lightdm-webkit2 theme then enable `debug_mode` by setting it to `true`. Why do we need to enable `debug_mode`? Sometimes you will be greeted by an error. And this error is due to a race condition where the theme is trying to access the `lightdm` object even though it doesn't exist _yet_. Debug mode will allow you to `right-click` and `reload` the greeter just like a webpage.
 
-			```
-			# sudoedit /etc/lightdm/lightdm-webkit2-greeter.conf
-			```
+      ```
+      # sudoedit /etc/lightdm/lightdm-webkit2-greeter.conf
+      ```
 
-			Find `webkit_theme` then set its value to `glorious`. Find `debug_mode` then set it to true. If you encountered an error, right-click then reload.
+      Find `webkit_theme` then set its value to `glorious`. Find `debug_mode` then set it to true. If you encountered an error, right-click then reload.
 
 #### Silent boot
 
-This is for who prefer to limit the verbosity of their system to a strict minimum, either for aesthetics or other reasons. For me, it's aesthetics. 
+This is for who prefer to limit the verbosity of their system to a strict minimum, either for aesthetics or other reasons. For me, it's aesthetics.
 
 Edit boot loader kernel parameters:
 
@@ -526,38 +521,38 @@ As of now, we're using `iwd` if we're using wireless connection and `dhcpcd` if 
 
 **Network Manager is recommended if you're on a Plasma environment**. So make sure to enable it and disable the other networking tools. While if you're using awesome, you can just continue using `iwd` and `dhcpcd`. I mean it's your choice.
 
-+ Install network manager and its utilities.
+- Install network manager and its utilities.
 
-	`plasma-meta` will include and install networkmanager. But just to be safe:
+  `plasma-meta` will include and install networkmanager. But just to be safe:
 
-	```
-	# pacman -S networkmanager network-manager-applet dhclient modemmanager usb_modeswitch mobile-broadband-provider-info
-	```
+  ```
+  # pacman -S networkmanager network-manager-applet dhclient modemmanager usb_modeswitch mobile-broadband-provider-info
+  ```
 
-+ Disable `iwd` or `dhcpcd`.
+- Disable `iwd` or `dhcpcd`.
 
-	- `iwd`
+  - `iwd`
 
-		```
-		# iwctl station wlan0 disconnect
-		# systemctl disable --now iwd
-		```
+    ```
+    # iwctl station wlan0 disconnect
+    # systemctl disable --now iwd
+    ```
 
-	- `dhcpcd`
-	
-		```
-		# systemctl disable --now dhcpcd
-		```
+  - `dhcpcd`
 
-+ Enable Network Manager service.
+    ```
+    # systemctl disable --now dhcpcd
+    ```
 
-	```
-	# systemctl enable --now NetworkManger
-	```
+- Enable Network Manager service.
+
+  ```
+  # systemctl enable --now NetworkManger
+  ```
 
 #### Reboot then Login
 
-The system's fully functional! You can now login to you system with all the configuration we've done so far. 
+The system's fully functional! You can now login to you system with all the configuration we've done so far.
 
 ```
 $ reboot
@@ -602,13 +597,13 @@ Note that the thinkfan package installs `/usr/lib/modprobe.d/thinkpad_acpi.conf`
 options thinkpad_acpi fan_control=1
 ```
 
-So fan control is enabled by default. Alternatively, you can enable fan control as follows: 
+So fan control is enabled by default. Alternatively, you can enable fan control as follows:
 
 ```
 # echo "options thinkpad_acpi fan_control=1" > /etc/modprobe.d/thinkfan.conf
 ```
 
-Now, load the module: 
+Now, load the module:
 
 ```
 # modprobe thinkpad_acpi
@@ -619,7 +614,7 @@ You should see that the fan level is "auto" by default, but you can echo a level
 
 **For Lenovo x230 users**:
 
-Open or create `/etc/thinkfan.conf`. Then use the following configuration: 
+Open or create `/etc/thinkfan.conf`. Then use the following configuration:
 
 ```
 tp_fan /proc/acpi/ibm/fan
@@ -637,7 +632,7 @@ hwmon /sys/class/thermal/thermal_zone0/temp
 
 To find the best thinkfan configuration for you, search it on the internet. I found mine on the ArchWiki. Maybe you can find yours there too.
 
-**Make sure to have a configuration file before enabling the thinkfan service!** 
+**Make sure to have a configuration file before enabling the thinkfan service!**
 
 ```
 # systemctl enable thinkfan.service
@@ -645,68 +640,67 @@ To find the best thinkfan configuration for you, search it on the internet. I fo
 
 #### Enable MAC randomization
 
-MAC randomization can be used for increased privacy by not disclosing your real MAC address to the network. 
+MAC randomization can be used for increased privacy by not disclosing your real MAC address to the network.
 
-+ Randomization for iwd
+- Randomization for iwd
 
-	Create and edit `/etc/iwd/main.conf`. Then add the following lines:
+  Create and edit `/etc/iwd/main.conf`. Then add the following lines:
 
-	```
-	[General]
-	AddressRandomization=once
-	AddressRandomizationRange=nic
-	```
+  ```
+  [General]
+  AddressRandomization=once
+  AddressRandomizationRange=nic
+  ```
 
-+ Randomization for network-manager
+- Randomization for network-manager
 
-	- Install macchanger.
+  - Install macchanger.
 
-		```
-		# pacman -S macchanger
-		```
+    ```
+    # pacman -S macchanger
+    ```
 
-	- Create `30-mac-randomization.conf` in your `/etc/NetworkManager/conf.d/`. Add this:
+  - Create `30-mac-randomization.conf` in your `/etc/NetworkManager/conf.d/`. Add this:
 
-		```
-		[device-mac-randomization]
-		# "yes" is already the default for scanning
-		wifi.scan-rand-mac-address=yes
+    ```
+    [device-mac-randomization]
+    # "yes" is already the default for scanning
+    wifi.scan-rand-mac-address=yes
 
-		[connection-mac-randomization]
-		ethernet.cloned-mac-address=random
-		wifi.cloned-mac-address=stable
-		```
-
+    [connection-mac-randomization]
+    ethernet.cloned-mac-address=random
+    wifi.cloned-mac-address=stable
+    ```
 
 #### Firewall
 
 We'll use `Uncomplicated Firewall` or `ufw` for short.
 
-1. Install the `ufw` package. Start and enable `ufw.service` to make it available at boot. Note that this will not work if `iptables.service` is also enabled (and same for its ipv6 counterpart). 
+1. Install the `ufw` package. Start and enable `ufw.service` to make it available at boot. Note that this will not work if `iptables.service` is also enabled (and same for its ipv6 counterpart).
 
-	```
-	# pacman -S ufw
-	```
+   ```
+   # pacman -S ufw
+   ```
 
 2. Configuration
 
-	Here's some basic configuration. A very simplistic configuration which will deny all by default, allow any protocol from inside a 192.168.0.1-192.168.0.255 LAN, and allow incoming Deluge and rate limited SSH traffic from anywhere: 
+   Here's some basic configuration. A very simplistic configuration which will deny all by default, allow any protocol from inside a 192.168.0.1-192.168.0.255 LAN, and allow incoming Deluge and rate limited SSH traffic from anywhere:
 
-	```
-	# ufw default deny
-	# ufw allow from 192.168.0.0/24
-	# ufw allow Transmission
-	# ufw limit ssh
-	```
+   ```
+   # ufw default deny
+   # ufw allow from 192.168.0.0/24
+   # ufw allow Transmission
+   # ufw limit ssh
+   ```
 
-3. The next line is only needed once the first time you install the package: 
+3. The next line is only needed once the first time you install the package:
 
-	```
-	# ufw enable
-	# systemctl enable --now ufw.service
-	```
+   ```
+   # ufw enable
+   # systemctl enable --now ufw.service
+   ```
 
-Adding other applications. The PKG comes with some defaults based on the default ports of many common daemons and programs. Inspect the options by looking in the `/etc/ufw/applications.d` directory or by listing them in the program itself: 
+Adding other applications. The PKG comes with some defaults based on the default ports of many common daemons and programs. Inspect the options by looking in the `/etc/ufw/applications.d` directory or by listing them in the program itself:
 
 ```
 # ufw app list
@@ -779,4 +773,3 @@ Create `/etc/fonts/local.conf`, then add:
 ```
 
 Update and set your font of choice on settings.
-
