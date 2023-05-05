@@ -1,16 +1,16 @@
-# A Personal Arch Installation Guide
+# INSTALLATION&#x20;
 
-This is a personal guide so if you are lost and just found this guide from somewhere, I recommend you to read the official [`wiki`](https://wiki.archlinux.org/index.php/Installation_guide)! This guide will focus on `systemd-boot`, `UEFI` and a guide if you want to encrypt your partition with `LUKS/LVM`. This guide exists so that I can remember a bunch of things when reinstalling `Archlinux`.
+This is a personal guide so if you are lost and just found this guide from somewhere, I recommend you to read the official [`wiki`](https://wiki.archlinux.org/index.php/Installation\_guide)! This guide will focus on `systemd-boot`, `UEFI` and a guide if you want to encrypt your partition with `LUKS/LVM`. This guide exists so that I can remember a bunch of things when reinstalling <mark style="color:blue;">`Archlinux`</mark>.
 
 ## Pre-installation
 
 Before installing, make sure to:
 
-- Read the [official wiki](https://wiki.archlinux.org/index.php/installation_guide). It is advisable to read that instead. I wrote this guide for myself.
-- Acquire an installation image from [here](https://www.archlinux.org/download/).
-- Verify signature.
-- Prepare an installation medium.
-- Boot the live environment.
+* Read the [official wiki](https://wiki.archlinux.org/index.php/installation\_guide). It is advisable to read that instead. I wrote this guide for myself.
+* Acquire an installation image from [here](https://www.archlinux.org/download/).
+* Verify signature.
+* Prepare an installation medium.
+* Boot the live environment.
 
 ## Set the keyboard layout
 
@@ -55,8 +55,8 @@ You should see something like this:
 		link/ether 00:00:00:00:00:00 brd ff:ff:ff:ff:ff:ff permaddr 00:00:00:00:00:00
 ```
 
-- `enp0s0` is the wired interface
-- `wlan0` is the wireless interface
+* `enp0s0` is the wired interface
+* `wlan0` is the wireless interface
 
 ### Wired Connection
 
@@ -120,88 +120,70 @@ In this guide, I'll create a two different ways to partition a drive. One for a 
 
 ### Unencrypted filesystem
 
-- Let’s clean up our main drive to create new partitions for our installation. And yeah, in this guide, we will use `/dev/sda` as our disk.
+*   Let’s clean up our main drive to create new partitions for our installation. And yeah, in this guide, we will use `/dev/sda` as our disk.
 
-  ```bash
-  gdisk /dev/sda
-  ```
+    ```bash
+    gdisk /dev/sda
+    ```
+* Press x to enter **expert mode**. Then press z to _zap_ our drive. Then hit y when prompted about wiping out GPT and blanking out MBR. Note that this will _**zap**_ your entire drive so your data will be gone - reduced to atoms after doing this. THIS. CANNOT. BE. UNDONE.
+*   Open `cgdisk` to start partitioning our filesystem
 
-- Press <kbd>x</kbd> to enter **expert mode**. Then press <kbd>z</kbd> to _zap_ our drive. Then hit <kbd>y</kbd> when prompted about wiping out GPT and blanking out MBR. Note that this will **_zap_** your entire drive so your data will be gone - reduced to atoms after doing this. THIS. CANNOT. BE. UNDONE.
+    ```bash
+    cgdisk /dev/sda
+    ```
+*   Press Return when warned about damaged GPT.
 
-- Open `cgdisk` to start partitioning our filesystem
-
-  ```bash
-  cgdisk /dev/sda
-  ```
-
-- Press <kbd>Return</kbd> when warned about damaged GPT.
-
-  Now we should be presented with our main drive showing the partition number, partition size, partition type, and partition name. If you see list of partitions, delete all those first.
-
-- Create the `boot` partition
-
-  - Hit New from the options at the bottom.
-  - Just hit enter to select the default option for the first sector.
-  - Now the partion size - Arch wiki recommends 200-300 MB for the boot + size. Let’s make 1GiB in case we need to add more OS to our machine. I’m gonna assign mine with 1024MiB. Hit enter.
-  - Set GUID to `EF00`. Hit enter.
-  - Set name to `boot`. Hit enter.
-  - Now you should see the new partition in the partitions list with a partition type of EFI System and a partition name of boot. You will also notice there is 1007KB above the created partition. That is the MBR. Don’t worry about that and just leave it there.
-
-- Create the `swap` partition
-
-  - Hit New again from the options at the bottom of partition list.
-  - Just hit enter to select the default option for the first sector.
-  - For the swap partition size, I always assign mine with 1GiB. Hit enter.
-  - Set GUID to `8200`. Hit enter.
-  - Set name to `swap`. Hit enter.
-
-- Create the `root` partition
-
-  - Hit New again.
-  - Hit enter to select the default option for the first sector.
-  - Hit enter again to input your root size.
-  - Also hit enter for the GUID to select default(`8300`).
-  - Then set name of the partition to `root`.
-
-- Create the `home` partition
-
-  - Hit New again.
-  - Hit enter to select the default option for the first sector.
-  - Hit enter again to use the remainder of the disk.
-  - Also hit enter for the GUID to select default.
-  - Then set name of the partition to `home`.
-
-- Lastly, hit `Write` at the bottom of the patitions list to _write the changes_ to the disk. Type `yes` to _confirm_ the write command. Now we are done partitioning the disk. Hit `Quit` _to exit cgdisk_. Go to the [next section](#formatting-partitions).
+    Now we should be presented with our main drive showing the partition number, partition size, partition type, and partition name. If you see list of partitions, delete all those first.
+* Create the `boot` partition
+  * Hit New from the options at the bottom.
+  * Just hit enter to select the default option for the first sector.
+  * Now the partion size - Arch wiki recommends 200-300 MB for the boot + size. Let’s make 1GiB in case we need to add more OS to our machine. I’m gonna assign mine with 1024MiB. Hit enter.
+  * Set GUID to `EF00`. Hit enter.
+  * Set name to `boot`. Hit enter.
+  * Now you should see the new partition in the partitions list with a partition type of EFI System and a partition name of boot. You will also notice there is 1007KB above the created partition. That is the MBR. Don’t worry about that and just leave it there.
+* Create the `swap` partition
+  * Hit New again from the options at the bottom of partition list.
+  * Just hit enter to select the default option for the first sector.
+  * For the swap partition size, I always assign mine with 1GiB. Hit enter.
+  * Set GUID to `8200`. Hit enter.
+  * Set name to `swap`. Hit enter.
+* Create the `root` partition
+  * Hit New again.
+  * Hit enter to select the default option for the first sector.
+  * Hit enter again to input your root size.
+  * Also hit enter for the GUID to select default(`8300`).
+  * Then set name of the partition to `root`.
+* Create the `home` partition
+  * Hit New again.
+  * Hit enter to select the default option for the first sector.
+  * Hit enter again to use the remainder of the disk.
+  * Also hit enter for the GUID to select default.
+  * Then set name of the partition to `home`.
+* Lastly, hit `Write` at the bottom of the patitions list to _write the changes_ to the disk. Type `yes` to _confirm_ the write command. Now we are done partitioning the disk. Hit `Quit` _to exit cgdisk_. Go to the [next section](./#formatting-partitions).
 
 ### Encrypted filesystem with `LUKS/LVM`
 
-- Let’s clean up our main drive to create new partitions for our installation. And yeah, in this guide, we will use `/dev/sda` as our disk.
+*   Let’s clean up our main drive to create new partitions for our installation. And yeah, in this guide, we will use `/dev/sda` as our disk.
 
-  ```bash
-  gdisk /dev/sda
-  ```
+    ```bash
+    gdisk /dev/sda
+    ```
+* Press x to enter **expert mode**. Then press z to _zap_ our drive. Then hit y when prompted about wiping out GPT and blanking out MBR. Note that this will _**zap**_ your entire drive so your data will be gone - reduced to atoms after doing this. THIS. CANNOT. BE. UNDONE.
+*   Create our partitions by running `cgdisk /dev/sda`
 
-- Press <kbd>x</kbd> to enter **expert mode**. Then press <kbd>z</kbd> to _zap_ our drive. Then hit <kbd>y</kbd> when prompted about wiping out GPT and blanking out MBR. Note that this will **_zap_** your entire drive so your data will be gone - reduced to atoms after doing this. THIS. CANNOT. BE. UNDONE.
+    ```bash
+    cgdisk /dev/sda
+    ```
+*   Just press Return when warned about damaged GPT.
 
-- Create our partitions by running `cgdisk /dev/sda`
-
-  ```bash
-  cgdisk /dev/sda
-  ```
-
-- Just press <kbd>Return</kbd> when warned about damaged GPT.
-
-  Now we should be presented with our main drive showing the partition number, partition size, partition type, and partition name. If you see list of partitions, delete all those first.
-
-- Create the `LVM` partition
-
-  - Hit New again.
-  - Hit enter to select the default option for the first sector.
-  - Hit enter again to use the remainder of the disk.
-  - Set GUID to `8e00`. Hit enter.
-  - Set name to `lvm`. Hit enter.
-
-- Lastly, hit `Write` at the bottom of the patitions list to _write the changes_ to the disk. Type `yes` to _confirm_ the write command. Now we are done partitioning the disk. Hit `Quit` _to exit cgdisk_. Go to the [next section](#formatting-partitions).
+    Now we should be presented with our main drive showing the partition number, partition size, partition type, and partition name. If you see list of partitions, delete all those first.
+* Create the `LVM` partition
+  * Hit New again.
+  * Hit enter to select the default option for the first sector.
+  * Hit enter again to use the remainder of the disk.
+  * Set GUID to `8e00`. Hit enter.
+  * Set name to `lvm`. Hit enter.
+* Lastly, hit `Write` at the bottom of the patitions list to _write the changes_ to the disk. Type `yes` to _confirm_ the write command. Now we are done partitioning the disk. Hit `Quit` _to exit cgdisk_. Go to the [next section](./#formatting-partitions).
 
 ## Verifying the partitions
 
@@ -215,30 +197,30 @@ You should see _something like this_:
 
 ### Unencrypted filesystem
 
-| NAME | MAJ:MIN | RM  | SIZE | RO  | TYPE | MOUNTPOINT |
-| ---- | ------- | --- | ---- | --- | ---- | ---------- |
-| sda  | 8:0     | 0   | 477G | 0   |      |            |
-| sda1 | 8:1     | 0   | 1    | 0   | part |            |
-| sda2 | 8:2     | 0   | 1    | 0   | part |            |
-| sda3 | 8:3     | 0   | 175G | 0   | part |            |
-| sda4 | 8:4     | 0   | 300G | 0   | part |            |
+| NAME | MAJ:MIN | RM | SIZE | RO | TYPE | MOUNTPOINT |
+| ---- | ------- | -- | ---- | -- | ---- | ---------- |
+| sda  | 8:0     | 0  | 477G | 0  |      |            |
+| sda1 | 8:1     | 0  | 1    | 0  | part |            |
+| sda2 | 8:2     | 0  | 1    | 0  | part |            |
+| sda3 | 8:3     | 0  | 175G | 0  | part |            |
+| sda4 | 8:4     | 0  | 300G | 0  | part |            |
 
-**`sda`** is the main disk  
-**`sda1`** is the boot partition  
-**`sda2`** is the swap partition  
-**`sda3`** is the home partition  
+**`sda`** is the main disk\
+**`sda1`** is the boot partition\
+**`sda2`** is the swap partition\
+**`sda3`** is the home partition\
 **`sda4`** is the root partition
 
 ### Encrypted filesystem
 
-| NAME | MAJ:MIN | RM  | SIZE | RO  | TYPE | MOUNTPOINT |
-| ---- | ------- | --- | ---- | --- | ---- | ---------- |
-| sda  | 8:0     | 0   | 477G | 0   | disk |            |
-| sda1 | 8:1     | 0   | 1    | 0   | part |            |
-| sda2 | 8:2     | 0   | 1    | 0   | part |            |
+| NAME | MAJ:MIN | RM | SIZE | RO | TYPE | MOUNTPOINT |
+| ---- | ------- | -- | ---- | -- | ---- | ---------- |
+| sda  | 8:0     | 0  | 477G | 0  | disk |            |
+| sda1 | 8:1     | 0  | 1    | 0  | part |            |
+| sda2 | 8:2     | 0  | 1    | 0  | part |            |
 
-**`sda`** is the main disk  
-**`sda1`** is the boot partition  
+**`sda`** is the main disk\
+**`sda1`** is the boot partition\
 **`sda2`** is the LVM partition
 
 **Surprise! Surprise!** We will **not** encrypt the `/boot` partition.
@@ -247,189 +229,166 @@ You should see _something like this_:
 
 ### Unencrypted filesystem
 
-- Format `/dev/sda1` partition as `FAT32`. This will be our `/boot`.
+*   Format `/dev/sda1` partition as `FAT32`. This will be our `/boot`.
 
-  ```bash
-  mkfs.fat -F32 /dev/sda1
-  ```
+    ```bash
+    mkfs.fat -F32 /dev/sda1
+    ```
+*   Create and enable our `swap` under the `/dev/sda2` partition.
 
-- Create and enable our `swap` under the `/dev/sda2` partition.
+    ```bash
+    mkswap /dev/sda2
+    ```
 
-  ```bash
-  mkswap /dev/sda2
-  ```
+    ```bash
+    swapon /dev/sda2
+    ```
+*   Format `/dev/sda3` and `/dev/sda4` partition as `EXT4`. This will be our `root` and `home` partition.
 
-  ```bash
-  swapon /dev/sda2
-  ```
+    ```bash
+    mkfs.ext4 /dev/sda3
+    ```
 
-- Format `/dev/sda3` and `/dev/sda4` partition as `EXT4`. This will be our `root` and `home` partition.
-
-  ```bash
-  mkfs.ext4 /dev/sda3
-  ```
-
-  ```bash
-  mkfs.ext4 /dev/sda4
-  ```
+    ```bash
+    mkfs.ext4 /dev/sda4
+    ```
 
 ### Encrypted filesystem
 
-- Format `/dev/sda1` partition as `FAT32`. This will be our `/boot`.
-
-  ```bash
-  mkfs.fat -F32 /dev/sda1
-  ```
-
-- Create the LUKS encrypted container.
-
-  ```bash
-  cryptsetup luksFormat /dev/sda2
-  ```
-
-- Enter your passphrase twice. Don't forget this!
-
-- Open the created container and name it whatever you want. In this guide I'll just use `cryptlvm`.
-
-  ```bash
-  cryptsetup open --type luks /dev/sda2 cryptlvm
-  ```
-
-- Enter your passphrase and verify it.
-
-- The decrypted container is now available at `/dev/mapper/cryptlvm`.
-
-- Create a physical volume on top of the opened LUKS container:
-
-  ```bash
-  pvcreate /dev/mapper/cryptlvm
-  ```
-
-- Create the volume group and name it `volume` (or whatever you want), adding the previously created physical volume to it:
-
-  In this guide, I'll just use `volume` as the volume group name.
-
-  ```bash
-  vgcreate volume /dev/mapper/cryptlvm
-  ```
-
-- Create all your needed logical volumes on the volume group. We will create a `swap`, `root`, and `home` logical volumes. Note that the `volume` is the name of the volume we just created.
-
-  - Create our `swap`. I'll assign 1GB to it.
+*   Format `/dev/sda1` partition as `FAT32`. This will be our `/boot`.
 
     ```bash
-    lvcreate -L 1G volume -n swap
+    mkfs.fat -F32 /dev/sda1
     ```
-
-    This will create `/dev/mapper/volume-swap`.
-
-  - Create our `root`. In this guide, I'll use 100GB.
+*   Create the LUKS encrypted container.
 
     ```bash
-    lvcreate -L 100G volume -n root
+    cryptsetup luksFormat /dev/sda2
     ```
-
-    This will create `/dev/mapper/volume-root`.
-
-  - Create our home sweet `home`. I'll just assign the remaining space to it.
+* Enter your passphrase twice. Don't forget this!
+*   Open the created container and name it whatever you want. In this guide I'll just use `cryptlvm`.
 
     ```bash
-    lvcreate -l 100%FREE volume -n home
+    cryptsetup open --type luks /dev/sda2 cryptlvm
     ```
-
-  This will create `/dev/mapper/volume-home`.
-
-- Format the logical partitions under the LVM volume.
-
-  - Format and create our `swap`.
+* Enter your passphrase and verify it.
+* The decrypted container is now available at `/dev/mapper/cryptlvm`.
+*   Create a physical volume on top of the opened LUKS container:
 
     ```bash
-    mkswap /dev/mapper/volume-swap
+    pvcreate /dev/mapper/cryptlvm
     ```
+*   Create the volume group and name it `volume` (or whatever you want), adding the previously created physical volume to it:
+
+    In this guide, I'll just use `volume` as the volume group name.
 
     ```bash
-    swapon /dev/mapper/volume-swap
+    vgcreate volume /dev/mapper/cryptlvm
     ```
+*   Create all your needed logical volumes on the volume group. We will create a `swap`, `root`, and `home` logical volumes. Note that the `volume` is the name of the volume we just created.
 
-  - Format our `root` and `home` partitions.
+    *   Create our `swap`. I'll assign 1GB to it.
 
-    ```bash
-    mkfs.ext4 /dev/mapper/volume-root
-    ```
+        ```bash
+        lvcreate -L 1G volume -n swap
+        ```
 
-    ```bash
-    mkfs.ext4 /dev/mapper/volume-home
-    ```
+        This will create `/dev/mapper/volume-swap`.
+    *   Create our `root`. In this guide, I'll use 100GB.
+
+        ```bash
+        lvcreate -L 100G volume -n root
+        ```
+
+        This will create `/dev/mapper/volume-root`.
+    *   Create our home sweet `home`. I'll just assign the remaining space to it.
+
+        ```bash
+        lvcreate -l 100%FREE volume -n home
+        ```
+
+    This will create `/dev/mapper/volume-home`.
+* Format the logical partitions under the LVM volume.
+  *   Format and create our `swap`.
+
+      ```bash
+      mkswap /dev/mapper/volume-swap
+      ```
+
+      ```bash
+      swapon /dev/mapper/volume-swap
+      ```
+  *   Format our `root` and `home` partitions.
+
+      ```bash
+      mkfs.ext4 /dev/mapper/volume-root
+      ```
+
+      ```bash
+      mkfs.ext4 /dev/mapper/volume-home
+      ```
 
 ## Mount the filesystems
 
 ### Unencryped partition
 
-- Mount the `/dev/sda` partition to `/mnt`. This is our `/`:
+*   Mount the `/dev/sda` partition to `/mnt`. This is our `/`:
 
-  ```bash
-  mount /dev/sda3 /mnt
-  ```
+    ```bash
+    mount /dev/sda3 /mnt
+    ```
+*   Create a `/boot` mountpoint:
 
-- Create a `/boot` mountpoint:
+    ```bash
+    mkdir /mnt/boot
+    ```
+*   Mount `/dev/sda1` to `/mnt/boot` partition. This is will be our `/boot`:
 
-  ```bash
-  mkdir /mnt/boot
-  ```
+    ```bash
+    mount /dev/sda1 /mnt/boot
+    ```
+*   Create a `/home` mountpoint:
 
-- Mount `/dev/sda1` to `/mnt/boot` partition. This is will be our `/boot`:
+    ```bash
+    mkdir /mnt/home
+    ```
+*   Mount `/dev/sda4` to `/mnt/home` partition. This is will be our `/home`:
 
-  ```bash
-  mount /dev/sda1 /mnt/boot
-  ```
+    ```bash
+    mount /dev/sda1 /mnt/home
+    ```
 
-- Create a `/home` mountpoint:
-
-  ```bash
-  mkdir /mnt/home
-  ```
-
-- Mount `/dev/sda4` to `/mnt/home` partition. This is will be our `/home`:
-
-  ```bash
-  mount /dev/sda1 /mnt/home
-  ```
-
-  We don’t need to mount `swap` since it is already enabled.
+    We don’t need to mount `swap` since it is already enabled.
 
 ### Encrypted partition
 
-- Mount the `/dev/mapper/volume-root` partition to `/mnt`. This is our `/`:
+*   Mount the `/dev/mapper/volume-root` partition to `/mnt`. This is our `/`:
 
-  ```bash
-  mount /dev/mapper/volume-root /mnt
-  ```
+    ```bash
+    mount /dev/mapper/volume-root /mnt
+    ```
+*   Create a `/boot` mountpoint:
 
-- Create a `/boot` mountpoint:
+    ```bash
+    mkdir /mnt/boot
+    ```
+*   Mount `/dev/sda1` to `/mnt/boot` partition. This is will be our `/boot`:
 
-  ```bash
-  mkdir /mnt/boot
-  ```
+    ```bash
+    mount /dev/sda1 /mnt/boot
+    ```
+*   Create a `/home` mountpoint:
 
-- Mount `/dev/sda1` to `/mnt/boot` partition. This is will be our `/boot`:
+    ```bash
+    mkdir /mnt/home
+    ```
+*   Mount `/dev/mapper/volume-home` to `/mnt/home` partition. This is will be our `/home`:
 
-  ```bash
-  mount /dev/sda1 /mnt/boot
-  ```
+    ```bash
+    mount /dev/mapper/volume-home /mnt/home
+    ```
 
-- Create a `/home` mountpoint:
-
-  ```bash
-  mkdir /mnt/home
-  ```
-
-- Mount `/dev/mapper/volume-home` to `/mnt/home` partition. This is will be our `/home`:
-
-  ```bash
-  mount /dev/mapper/volume-home /mnt/home
-  ```
-
-  We don’t need to mount `swap` since it is already enabled.
+    We don’t need to mount `swap` since it is already enabled.
 
 ## Installation
 
@@ -441,50 +400,39 @@ pacstrap /mnt base base-devel linux linux-firmware
 
 The `base` package does not include all tools from the live installation, so installing other packages may be necessary for a fully functional base system. In particular, consider installing:
 
-- userspace utilities for the management of file systems that will be used on the system,
-
-  - `ntfs-3g`: NTFS filesystem driver and utilities
-  - `unrar`: The RAR uncompression program
-  - `unzip`: For extracting and viewing files in `.zip` archives
-  - `p7zip`: Command-line file archiver with high compression ratio
-  - `unarchiver`: `unar` and `lsar`: Objective-C tools for uncompressing archive files
-  - `gvfs-mtp`: Virtual filesystem implementation for `GIO` (`MTP` backend; Android, media player)
-  - `libmtp`: Library implementation of the Media Transfer Protocol
-  - `android-udev`: Udev rules to connect Android devices to your linux box
-  - `mtpfs`: A FUSE filesystem that supports reading and writing from any MTP devic
-  - `xdg-user-dirs`: Manage user directories like `~/Desktop` and `~/Music`
-
-- utilities for accessing `RAID` or `LVM` partitions,
-
-  - `lvm2`: Logical Volume Manager 2 utilities (_if you are setting up an encrypted filesystem with LUKS/LVM, include this on pacstrap_)
-
-- specific firmware for other devices not included in `linux-firmware`,
-- software necessary for networking,
-
-  - `dhcpcd`: RFC2131 compliant DHCP client daemon
-  - `iwd`: Internet Wireless Daemon
-  - `inetutils`: A collection of common network programs
-  - `iputils`: Network monitoring tools, including `ping`
-
-- a text editor(s),
-
-  - `nano`
-  - `micro`
-  - `vim`
-  - `neovim`
-
-- packages for accessing documentation in man and info pages,
-
-  - `man-db`
-  - `man-pages`
-
-- and more useful tools:
-
-  - `git`: the fast distributed version control system
-  - `tmux`: A terminal multiplexer
-  - `less`: A terminal based program for viewing text files
-  - `usbutils`: USB Device Utilities
-  - `bash-completion`: Programmable completion for the bash shell
+* userspace utilities for the management of file systems that will be used on the system,
+  * `ntfs-3g`: NTFS filesystem driver and utilities
+  * `unrar`: The RAR uncompression program
+  * `unzip`: For extracting and viewing files in `.zip` archives
+  * `p7zip`: Command-line file archiver with high compression ratio
+  * `unarchiver`: `unar` and `lsar`: Objective-C tools for uncompressing archive files
+  * `gvfs-mtp`: Virtual filesystem implementation for `GIO` (`MTP` backend; Android, media player)
+  * `libmtp`: Library implementation of the Media Transfer Protocol
+  * `android-udev`: Udev rules to connect Android devices to your linux box
+  * `mtpfs`: A FUSE filesystem that supports reading and writing from any MTP devic
+  * `xdg-user-dirs`: Manage user directories like `~/Desktop` and `~/Music`
+* utilities for accessing `RAID` or `LVM` partitions,
+  * `lvm2`: Logical Volume Manager 2 utilities (_if you are setting up an encrypted filesystem with LUKS/LVM, include this on pacstrap_)
+* specific firmware for other devices not included in `linux-firmware`,
+* software necessary for networking,
+  * `dhcpcd`: RFC2131 compliant DHCP client daemon
+  * `iwd`: Internet Wireless Daemon
+  * `inetutils`: A collection of common network programs
+  * `iputils`: Network monitoring tools, including `ping`
+* a text editor(s),
+  * `nano`
+  * `micro`
+  * `vim`
+  * `neovim`
+* packages for accessing documentation in man and info pages,
+  * `man-db`
+  * `man-pages`
+* and more useful tools:
+  * `git`: the fast distributed version control system
+  * `tmux`: A terminal multiplexer
+  * `less`: A terminal based program for viewing text files
+  * `usbutils`: USB Device Utilities
+  * `bash-completion`: Programmable completion for the bash shell
 
 These tools will be useful later. So **future me**, install these.
 
@@ -568,37 +516,35 @@ Creating a new initramfs is usually not required, because mkinitcpio was run on 
 
 ### Unencrypted filesystem
 
-    ```bash
-    mkinitcpio -p linux
-    ```
+````
+```bash
+mkinitcpio -p linux
+```
+````
 
 ### Encrypted filesystem with LVM/LUKS
 
-- Open `/etc/mkinitcpio.conf` with an editor:
+* Open `/etc/mkinitcpio.conf` with an editor:
+* In this guide, there are two ways to setting up initramfs, `udev` (default) and `systemd`. If you are planning to use `plymouth`(splashcreen), it is advisable to use a `systemd`-based initramfs.
+  *   udev-based initramfs (default).
 
-- In this guide, there are two ways to setting up initramfs, `udev` (default) and `systemd`. If you are planning to use `plymouth`(splashcreen), it is advisable to use a `systemd`-based initramfs.
+      Find the `HOOKS` array, then change it to something like this:
 
-  - udev-based initramfs (default).
+      ```
+      HOOKS=(base udev autodetect keyboard modconf block encrypt lvm2 filesystems fsck)
+      ```
+  *   systemd-based initramfs.
 
-    Find the `HOOKS` array, then change it to something like this:
+      Find the `HOOKS` array, then change it to something like this:
 
-    ```
-    HOOKS=(base udev autodetect keyboard modconf block encrypt lvm2 filesystems fsck)
-    ```
+      ```
+      HOOKS=(base systemd autodetect keyboard sd-vconsole modconf block sd-encrypt sd-lvm2 filesystems fsck)
+      ```
+  *   Regenerate initramfs image:
 
-  - systemd-based initramfs.
-
-    Find the `HOOKS` array, then change it to something like this:
-
-    ```
-    HOOKS=(base systemd autodetect keyboard sd-vconsole modconf block sd-encrypt sd-lvm2 filesystems fsck)
-    ```
-
-  - Regenerate initramfs image:
-
-    ```bash
-    mkinitcpio -p linux
-    ```
+      ```bash
+      mkinitcpio -p linux
+      ```
 
 ## Adding Repositories - `multilib` and `AUR`
 
@@ -688,15 +634,14 @@ Uncomment the line (Remove #):
 
 Yeah, this is where we install the bootloader. We will be using `systemd-boot`, so no need for `grub2`.
 
-- Install bootloader:
+*   Install bootloader:
 
-  We will install it in `/boot` mountpoint (`/dev/sda1` partition).
+    We will install it in `/boot` mountpoint (`/dev/sda1` partition).
 
-  ```bash
-  bootctl --path=/boot install
-  ```
-
-- Create a boot entry `/boot/loader/entries/arch.conf`, then add these lines:
+    ```bash
+    bootctl --path=/boot install
+    ```
+* Create a boot entry `/boot/loader/entries/arch.conf`, then add these lines:
 
 ### Unencrypted filesystem
 
@@ -715,32 +660,31 @@ Save and exit.
 
 Remember the two-types of initramfs earlier? Each type needs a specific kernel parameters. So there's also a two type of entries here. Remember that `volume` is the volume group name and `/dev/mapper/volume-root` is the path to `/`.
 
-- udev-based initramfs
+*   udev-based initramfs
 
-  ```
-  title Arch Linux
-  linux /vmlinuz-linux
-  initrd  /initramfs-linux.img
-  options cryptdevice=UUID=/DEV/SDA2/UUID/HERE:volume root=/dev/mapper/volume-root rw
-  ```
+    ```
+    title Arch Linux
+    linux /vmlinuz-linux
+    initrd  /initramfs-linux.img
+    options cryptdevice=UUID=/DEV/SDA2/UUID/HERE:volume root=/dev/mapper/volume-root rw
+    ```
 
-  Replace `/DEV/SDA2/UUID/HERE` with the UUID of your `LVM` partition. You can check it by running `blkid /dev/sda2`. Note that `cryptdevice` parameter is unsupported by plymouth so it's advisable to use systemd-based initramfs if you are planning to use it.
+    Replace `/DEV/SDA2/UUID/HERE` with the UUID of your `LVM` partition. You can check it by running `blkid /dev/sda2`. Note that `cryptdevice` parameter is unsupported by plymouth so it's advisable to use systemd-based initramfs if you are planning to use it.
 
-  Tip: If you are using `vim`, you can write the UUID easier by typing `:read ! blkid /dev/sda2` then hit enter. Then manipulate the output by using visual mode.
+    Tip: If you are using `vim`, you can write the UUID easier by typing `:read ! blkid /dev/sda2` then hit enter. Then manipulate the output by using visual mode.
+*   systemd-based initramfs
 
-- systemd-based initramfs
+    ```
+    title Arch Linux
+    linux /vmlinuz-linux
+    initrd /intel-ucode.img
+    initrd /initramfs-linux.img
+    options rd.luks.name=/DEV/SDA2/UUID/HERE=volume root=/dev/mapper/volume-root rw
+    ```
 
-  ```
-  title Arch Linux
-  linux /vmlinuz-linux
-  initrd /intel-ucode.img
-  initrd /initramfs-linux.img
-  options rd.luks.name=/DEV/SDA2/UUID/HERE=volume root=/dev/mapper/volume-root rw
-  ```
+    Replace `/DEV/SDA2/UUID/HERE` with the UUID of your `LVM` partition. You can check it by running `blkid /dev/sda2`.
 
-  Replace `/DEV/SDA2/UUID/HERE` with the UUID of your `LVM` partition. You can check it by running `blkid /dev/sda2`.
-
-  Tip: If you are using `vim`, you can write the UUID easier by typing `:read ! blkid /dev/sda2` then hit enter. Then manipulate the output by using visual mode.
+    Tip: If you are using `vim`, you can write the UUID easier by typing `:read ! blkid /dev/sda2` then hit enter. Then manipulate the output by using visual mode.
 
 ### Update boot loader configuration
 
@@ -769,12 +713,12 @@ systemctl enable dhcpcd iwd
 
 ## Exit chroot and reboot:
 
-Exit the chroot environment by typing `exit` or pressing <kbd>Ctrl + d</kbd>. You can also unmount all mounted partition after this.
+Exit the chroot environment by typing `exit` or pressing Ctrl + d. You can also unmount all mounted partition after this.
 
 Finally, `reboot`.
 
 ## Finale
 
-If your installation is a success, then **_yay!!!_** If not, you should start questioning your own existence. Are your parents proud of you?
+If your installation is a success, then _**yay!!!**_ If not, you should start questioning your own existence. Are your parents proud of you?
 
-## [[POST INSTALLATION]](./POST.md) [[EXTRAS]](./EXTRAS.md)
+## [\[POST INSTALLATION\]](POST.md) [\[EXTRAS\]](EXTRAS.md)
